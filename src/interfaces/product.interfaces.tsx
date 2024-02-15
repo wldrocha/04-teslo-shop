@@ -4,13 +4,15 @@ export interface Product {
   images: string[]
   inStock: number
   price: number
-  sizes: ValidSizes[]
+  sizes: Sizes[]
   slug: string
   tags: string[]
   title: string
-  type: ValidTypes
-  gender: 'men' | 'women' | 'kid' | 'unisex'
+  type: Type
+  gender: Category
 }
 
-type ValidSizes = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL'
-type ValidTypes = 'shirts' | 'pants' | 'hoodies' | 'hats'
+export type Category = 'men' | 'women' | 'kid' | 'unisex'
+
+type Sizes = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL'
+type Type = 'shirts' | 'pants' | 'hoodies' | 'hats'
