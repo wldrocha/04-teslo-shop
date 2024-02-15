@@ -1,4 +1,5 @@
-import React from 'react'
+'use client'
+import clsx from 'clsx'
 import {
   MdClose,
   MdLogin,
@@ -10,6 +11,7 @@ import {
   MdPeopleOutline
 } from 'react-icons/md'
 import { SideBarItem } from './SideBarItem'
+import { useUIStore } from '@/store'
 
 const normalOptions = [
   {
@@ -53,15 +55,29 @@ const adminOptions = [
 ]
 
 export const Sidebar = () => {
+  const { isSideMenuOpen, closeSideMenu } = useUIStore((state) => state)
+
   return (
     <div className=''>
-      {/* bacgorund black */}
-      <div className='fixed top-0 left-0 w-screen h-screen z-10 bg-black opacity-30 ' />
-      {/* blur */}
-      <div className='fade in  fixed top-0 left-0  w-screen h-screen z-10 backdrop-filter backdrop-blur-sm' />
+      {isSideMenuOpen && (
+        <>
+          <div className='fixed top-0 left-0 w-screen h-screen z-10 bg-black opacity-30 ' />
+          {/* blur */}
+          {/* background black */}
+          <div
+            onClick={closeSideMenu}
+            className='fade in  fixed top-0 left-0  w-screen h-screen z-10 backdrop-filter backdrop-blur-sm'
+          />
+        </>
+      )}
       {/* nav */}
-      <nav className='fixed p-5 right-0 top-0 w-[500px] h-screen bg-white z-20 shadow-2xl transform transition-all duration-300'>
-        <MdClose size={50} className='absolute top-5 right-5 cursor-pointer' />
+      <nav
+        className={clsx(
+          'fixed p-5 right-0 top-0 w-[500px] h-screen bg-white z-20 shadow-2xl transform transition-all duration-300',
+          { 'translate-x-full': !isSideMenuOpen }
+        )}
+      >
+        <MdClose onClick={closeSideMenu} size={50} className='absolute top-5 right-5 cursor-pointer' />
         <div className='relative mt-14'>
           <MdOutlineSearch size={20} className='absolute top-2 left-2' />
           <input
