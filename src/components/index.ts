@@ -1,5 +1,6 @@
+export * from './product/quantity-selector/QuantitySelector'
 export * from './product/size-selector/SizeSelector'
-export * from './product/size-selector/quantity-selector/QuantitySelector'
+export * from './product/slides-show/ProductSlideShow'
 export * from './products/product-grid/ProductGrid'
 export * from './products/product-grid/ProductGridItem'
 export * from './top-menu/TopMenu'
