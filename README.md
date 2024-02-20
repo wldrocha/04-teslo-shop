@@ -6,4 +6,5 @@
 3. install dependecies ```npm install ``` or ```yarn install ``` or ```pnpm install ```
 4. Up database ```docker compose up -d```
 5. run migrations with ```npx migrate dev```
-6. run project with ```npm run dev ``` or ```yarn dev ``` or ```pnpm dev ```
+6. run seed with ```npm run seed ``` or ```yarn seed ``` or ```pnpm seed ```
+7. run project with ```npm run dev ``` or ```yarn dev ``` or ```pnpm dev ```
