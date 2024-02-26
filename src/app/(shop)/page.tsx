@@ -1,9 +1,15 @@
+import { getPaginatedProductsWithImages } from '@/actions'
 import { ProductGrid, Title } from '@/components'
-import { initialData } from '@/seed/seed'
 
-const products = initialData.products
+interface HomeProps {
+  searchParams: {
+    page?: number
+  }
+}
 
-export default function Home() {
+export default async function Home({ searchParams }: HomeProps) {
+  const page = searchParams.page ? parseInt(searchParams.page as string) : 1
+  const { products } = await getPaginatedProductsWithImages({ page })
   return (
     <>
       <Title title='Shop' subtitle='All products' className='mb-2' />
