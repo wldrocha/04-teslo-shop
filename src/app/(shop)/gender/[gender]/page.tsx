@@ -1,3 +1,5 @@
+export const revalidate = 60 // revalidate every 60 seconds
+
 import { ProductGrid, Title, Pagination } from '@/components'
 import { getPaginatedProductsWithImages } from '@/actions'
 import { redirect } from 'next/navigation'
@@ -34,12 +36,11 @@ const labelsTitle: Record<string, CategoryInfo> = {
   }
 }
 
-export default async function CategoryPage({ params,searchParams }: Props) {
+export default async function CategoryPage({ params, searchParams }: Props) {
   const { gender } = params
-  
 
-  const page = searchParams.page ? parseInt(searchParams.page as string) : 1
-  
+  const page = searchParams.page ? parseInt(searchParams.page as unknown as string) : 1
+
   const { products, totalPages } = await getPaginatedProductsWithImages({ page, gender })
 
   if (products.length === 0) {

@@ -1,3 +1,5 @@
+export const revalidate = 60 // revalidate every 60 seconds
+
 import { getPaginatedProductsWithImages } from '@/actions'
 import { Pagination, ProductGrid, Title } from '@/components'
 import { redirect } from 'next/navigation'
@@ -9,7 +11,7 @@ interface HomeProps {
 }
 
 export default async function Home({ searchParams }: HomeProps) {
-  const page = searchParams.page ? parseInt(searchParams.page as string) : 1
+  const page = searchParams.page ? parseInt(searchParams.page as unknown as string) : 1
   const { products, totalPages } = await getPaginatedProductsWithImages({ page })
 
   if (products.length === 0) {
@@ -19,7 +21,7 @@ export default async function Home({ searchParams }: HomeProps) {
     <>
       <Title title='Shop' subtitle='All products' className='mb-2' />
       <ProductGrid products={products} />
-         totalPages={totalPages} />
+      <Pagination totalPages={totalPages} />
     </>
   )
 }
