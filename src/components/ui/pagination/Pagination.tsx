@@ -2,7 +2,7 @@
 import { generatePagination } from '@/utils'
 import clsx from 'clsx'
 import Link from 'next/link'
-import { usePathname, useSearchParams } from 'next/navigation'
+import { redirect, usePathname, useSearchParams } from 'next/navigation'
 import { MdOutlineChevronLeft, MdOutlineChevronRight } from 'react-icons/md'
 
 interface Props {
@@ -17,6 +17,9 @@ export const Pagination = ({ totalPages }: Props) => {
   const pageString = searchParams.get('page') ?? 1
 
   const currentPage = isNaN(+pageString) ? 1 : +pageString
+  if(currentPage < 1){
+    redirect(pathname)
+  }
 
   const allPages = generatePagination(currentPage, totalPages)
 

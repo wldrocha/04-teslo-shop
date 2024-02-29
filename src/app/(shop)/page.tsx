@@ -10,7 +10,7 @@ interface HomeProps {
 
 export default async function Home({ searchParams }: HomeProps) {
   const page = searchParams.page ? parseInt(searchParams.page as string) : 1
-  const { products, currentPage, totalPages } = await getPaginatedProductsWithImages({ page })
+  const { products, totalPages } = await getPaginatedProductsWithImages({ page })
 
   if (products.length === 0) {
     redirect('/')
@@ -19,7 +19,7 @@ export default async function Home({ searchParams }: HomeProps) {
     <>
       <Title title='Shop' subtitle='All products' className='mb-2' />
       <ProductGrid products={products} />
-      <Pagination totalPages={totalPages} />
+         totalPages={totalPages} />
     </>
   )
 }
