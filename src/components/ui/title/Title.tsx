@@ -2,8 +2,8 @@ import { titleFont } from '@/config/font'
 
 interface TitleProps {
   title: string
-  subtitle: string
-  className: string
+  subtitle?: string
+  className?: string
 }
 
 export const Title = ({ title, subtitle, className }: TitleProps) => {

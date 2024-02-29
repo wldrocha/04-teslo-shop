@@ -1,4 +1,4 @@
-import { Sidebar, TopMenu } from '@/components'
+import { Footer, Sidebar, TopMenu } from '@/components'
 
 export const metadata = {
   title: 'Teslo | Shop',
@@ -12,7 +12,8 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
       <Sidebar />
       <div className='px-0 sm:px-10'>
         {children}
-        </div>
+      </div>
+      <Footer />
     </main>
   )
 }

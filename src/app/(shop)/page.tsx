@@ -1,13 +1,27 @@
-import { ProductGrid, Title } from '@/components'
-import { initialData } from '@/seed/seed'
+export const revalidate = 60 // revalidate every 60 seconds
 
-const products = initialData.products
+import { getPaginatedProductsWithImages } from '@/actions'
+import { Pagination, ProductGrid, Title } from '@/components'
+import { redirect } from 'next/navigation'
 
-export default function Home() {
+interface HomeProps {
+  searchParams: {
+    page?: number
+  }
+}
+
+export default async function Home({ searchParams }: HomeProps) {
+  const page = searchParams.page ? parseInt(searchParams.page as unknown as string) : 1
+  const { products, totalPages } = await getPaginatedProductsWithImages({ page })
+
+  if (products.length === 0) {
+    redirect('/')
+  }
   return (
     <>
       <Title title='Shop' subtitle='All products' className='mb-2' />
       <ProductGrid products={products} />
+      <Pagination totalPages={totalPages} />
     </>
   )
 }

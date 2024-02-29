@@ -17,14 +17,14 @@ export const TopMenu = () => {
       </div>
       {/* center menu */}
       <div className='hidden sm:block'>
-        <Link className='m-2 p-2 rounded-md transition-all hover:bg-gray-100' href='/category/men'>
-          Hombres
+        <Link className='m-2 p-2 rounded-md transition-all hover:bg-gray-100' href='/gender/men'>
+          Men
         </Link>
-        <Link className='m-2 p-2 rounded-md transition-all hover:bg-gray-100' href='/category/women'>
-          Mujeres
+        <Link className='m-2 p-2 rounded-md transition-all hover:bg-gray-100' href='/gender/women'>
+          Women
         </Link>
-        <Link className='m-2 p-2 rounded-md transition-all hover:bg-gray-100' href='/category/kids'>
-          Niños
+        <Link className='m-2 p-2 rounded-md transition-all hover:bg-gray-100' href='/gender/kid'>
+          Kid
         </Link>
       </div>
       {/*  search cart menu*/}
