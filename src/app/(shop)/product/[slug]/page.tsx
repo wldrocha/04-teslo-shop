@@ -1,6 +1,8 @@
+export const revalidate = 60 * 60
+import { getProductBySlug } from '@/actions'
 import { ProductMobileSlideShow, ProductSlideShow, QuantitySelector, SizeSelector } from '@/components'
 import { titleFont } from '@/config/font'
-import { initialData } from '@/seed/seed'
+// import { initialData } from '@/seed/seed'
 import { notFound } from 'next/navigation'
 
 interface Props {
@@ -9,9 +11,9 @@ interface Props {
   }
 }
 
-export default function ProductDetailPage({ params }: Props) {
+export default async function ProductDetailPage({ params }: Props) {
   const { slug } = params
-  const product = initialData.products.find((product) => product.slug === slug)
+  const product = await getProductBySlug(slug)
   if (!product) {
     notFound()
   }
@@ -20,13 +22,13 @@ export default function ProductDetailPage({ params }: Props) {
       {/* slideshow */}
       <div className='col-span-1 md:col-span-2'>
         {/* mobile slideshow */}
-        <ProductMobileSlideShow images={product.images} title={product.title} className='block md:hidden' />
+        <ProductMobileSlideShow images={product.images} title={product.name} className='block md:hidden' />
         {/* Desktop slideshow*/}
-        <ProductSlideShow images={product.images} title={product.title} className='hidden md:block' />
+        <ProductSlideShow images={product.images} title={product.name} className='hidden md:block' />
       </div>
       {/* Product details */}
       <div className='col-span-1 px-5'>
-        <h1 className={`${titleFont.className} antialiased font-bold text-xl`}>{product.title}</h1>
+        <h1 className={`${titleFont.className} antialiased font-bold text-xl`}>{product.name}</h1>
 
         {/* size selector */}
         <SizeSelector selectedSize={product.sizes[0]} availableSizes={product.sizes} />
