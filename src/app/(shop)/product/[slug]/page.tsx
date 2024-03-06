@@ -1,6 +1,6 @@
 export const revalidate = 60 * 60
 import { getProductBySlug } from '@/actions'
-import { ProductMobileSlideShow, ProductSlideShow, QuantitySelector, SizeSelector } from '@/components'
+import { ProductMobileSlideShow, ProductSlideShow, QuantitySelector, SizeSelector, StockLabel } from '@/components'
 import { titleFont } from '@/config/font'
 // import { initialData } from '@/seed/seed'
 import { notFound } from 'next/navigation'
@@ -28,6 +28,7 @@ export default async function ProductDetailPage({ params }: Props) {
       </div>
       {/* Product details */}
       <div className='col-span-1 px-5'>
+        <StockLabel slug={slug} />
         <h1 className={`${titleFont.className} antialiased font-bold text-xl`}>{product.name}</h1>
 
         {/* size selector */}
