@@ -10,6 +10,7 @@ export interface Product {
   title: string
   // type: Type
   gender: Category
+  name?: string
 }
 
 export type Category = 'men' | 'women' | 'kid' | 'unisex'
