@@ -1,6 +1,8 @@
 'use client'
+import { login, registerUser } from '@/actions'
 import clsx from 'clsx'
 import Link from 'next/link'
+import { useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
 type FormInputs = {
@@ -10,14 +12,25 @@ type FormInputs = {
 }
 
 export const RegisterForm = () => {
+  const [error, setError] = useState('')
   const {
     register,
     handleSubmit,
     formState: { errors }
   } = useForm<FormInputs>()
-  console.log('🚀 ~ RegisterForm ~ errors:', errors)
+  // console.log('🚀 ~ RegisterForm ~ errors:', errors)
 
-  const onSubmit: SubmitHandler<FormInputs> = async ({ name, email, password }) => {}
+  const onSubmit: SubmitHandler<FormInputs> = async ({ name, email, password }) => {
+    const response = await registerUser(name, email, password)
+    if (!response.ok) {
+      setError(response.message)
+      return
+    }
+
+    await login(email.toLocaleLowerCase(), password)
+
+    window.location.replace('/')
+  }
 
   return (
     <form className='flex flex-col' onSubmit={handleSubmit(onSubmit)}>
