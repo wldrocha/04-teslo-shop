@@ -1,6 +1,7 @@
 'use client'
 
 import { useCartStore } from '@/store'
+import { currencyFormat } from '@/utils'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
@@ -21,11 +22,11 @@ export const OrderSummary = () => {
         <span>Products quantity</span>
         <span className='text-right'>{itemsInCart === 1 ? '1 article' : `${itemsInCart} articles`}</span>
         <span>Subtotal</span>
-        <span className='text-right'>$ {subTotal}</span>
+        <span className='text-right'>{currencyFormat(subTotal)}</span>
         <span>Impuestos (15%)</span>
-        <span className='text-right'>$ {taxes}</span>
+        <span className='text-right'>{currencyFormat(taxes)}</span>
         <span className='mt-5 text-2xl '>Total</span>
-        <span className='mt-5 text-2xl text-right'>$ {total}</span>
+        <span className='mt-5 text-2xl text-right'>{currencyFormat(total)}</span>
       </div>
 
       <div className='mt-5 mb-2 w-full'>
