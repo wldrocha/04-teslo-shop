@@ -1,14 +1,23 @@
 'use client'
 
+import { useEffect } from 'react'
 import { authenticate } from '@/actions'
 import clsx from 'clsx'
 import Link from 'next/link'
 import { useFormState, useFormStatus } from 'react-dom'
 import { MdInfoOutline } from 'react-icons/md'
+import { useRouter } from 'next/navigation'
 
 export const LoginForm = () => {
   const [state, dispatch] = useFormState(authenticate, undefined)
-  // console.log('🚀 ~ LoginForm ~ state:', state)
+  const router = useRouter()
+
+  useEffect(() => {
+    if (state === 'Success') {
+      router.replace('/')
+    }
+  }, [state])
+
   return (
     <form action={dispatch} className='flex flex-col'>
       <label htmlFor='email'>Email</label>
@@ -18,10 +27,10 @@ export const LoginForm = () => {
       <input className='px-5 py-2 border bg-gray-200 rounded mb-5' name='password' type='password' />
 
       <div className='flex py-2 justify-center space-x-1' aria-live='polite' aria-atomic='true'>
-        {state && (
+        {state !== 'Success' && (
           <>
             <MdInfoOutline className='h-5 w-5 text-red-500' />
-            <p className='text-sm text-red-500'>Wrong credentials</p>
+            <p className='text-sm text-red-500'>{state}</p>
           </>
         )}
       </div>

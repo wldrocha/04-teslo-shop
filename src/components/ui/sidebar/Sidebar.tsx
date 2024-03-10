@@ -28,7 +28,7 @@ const normalOptions = [
   {
     icon: <MdLogin size={30} />,
     title: 'Login',
-    href: '/'
+    href: '/auth/login'
   },
   {
     icon: <MdLogout size={30} />,
@@ -90,7 +90,7 @@ export const Sidebar = () => {
         {/* Option menu */}
 
         {normalOptions.map((normalOption, index) => (
-          <SideBarItem key={index} {...normalOption} />
+          <SideBarItem key={index} closeSidebar={closeSideMenu} {...normalOption} />
         ))}
 
         <div className='w-full h-px bg-gray-200 my-10' />
@@ -98,7 +98,7 @@ export const Sidebar = () => {
         {/* Option menu */}
 
         {adminOptions.map((adminOption, index) => (
-          <SideBarItem key={index} {...adminOption} />
+          <SideBarItem key={index} closeSidebar={closeSideMenu} {...adminOption} />
         ))}
       </nav>
     </div>
