@@ -62,7 +62,9 @@ export const Sidebar = () => {
   const { isSideMenuOpen, closeSideMenu } = useUIStore((state) => state)
 
   const { data: session } = useSession()
+  console.log("🚀 ~ Sidebar ~ session:", session)
   const isAuthenticated = !!session?.user
+  const isAdmin = session?.user?.role === 'admin'
 
   return (
     <div className=''>
@@ -95,20 +97,24 @@ export const Sidebar = () => {
         </div>
         {/* Option menu */}
 
-        {normalOptions.map((normalOption, index) => (
-          <SideBarItem key={index} closeSideMenu={closeSideMenu} {...normalOption} />
-        ))}
-
-        {isAuthenticated && <SideBarItem closeSideMenu={closeSideMenu} {...logoutOption} />}
+        {isAuthenticated && (
+          <>
+            {normalOptions.map((normalOption, index) => (
+              <SideBarItem key={index} closeSideMenu={closeSideMenu} {...normalOption} />
+            ))}
+            <SideBarItem closeSideMenu={closeSideMenu} {...logoutOption} />
+          </>
+        )}
         {!isAuthenticated && <SideBarItem closeSideMenu={closeSideMenu} {...loginOption} />}
 
         <div className='w-full h-px bg-gray-200 my-10' />
 
-        {/* Option menu */}
-
-        {adminOptions.map((adminOption, index) => (
-          <SideBarItem key={index} closeSideMenu={closeSideMenu} {...adminOption} />
-        ))}
+        {/* Option admin menu */}
+        {isAuthenticated &&
+          isAdmin &&
+          adminOptions.map((adminOption, index) => (
+            <SideBarItem key={index} closeSideMenu={closeSideMenu} {...adminOption} />
+          ))}
       </nav>
     </div>
   )

@@ -6,15 +6,13 @@ import clsx from 'clsx'
 import Link from 'next/link'
 import { useFormState, useFormStatus } from 'react-dom'
 import { MdInfoOutline } from 'react-icons/md'
-import { useRouter } from 'next/navigation'
 
 export const LoginForm = () => {
   const [state, dispatch] = useFormState(authenticate, undefined)
-  const router = useRouter()
 
   useEffect(() => {
     if (state === 'Success') {
-      router.replace('/')
+      window.location.replace('/')
     }
   }, [state])
 
