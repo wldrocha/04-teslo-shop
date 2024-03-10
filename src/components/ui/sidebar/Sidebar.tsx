@@ -13,6 +13,7 @@ import {
 import { SideBarItem } from './SideBarItem'
 import { useUIStore } from '@/store'
 import { logout } from '@/actions'
+import { useSession } from 'next-auth/react'
 
 const normalOptions = [
   {
@@ -57,6 +58,9 @@ const adminOptions = [
 
 export const Sidebar = () => {
   const { isSideMenuOpen, closeSideMenu } = useUIStore((state) => state)
+
+  const { data: session } = useSession()
+  console.log("🚀 ~ Sidebar ~ session:", session)
 
   return (
     <div className=''>
