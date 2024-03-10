@@ -48,4 +48,4 @@ export const authConfig: NextAuthConfig = {
   ]
 }
 
-export const { signIn, signOut, auth: authMiddleware } = NextAuth(authConfig)
+export const { signIn, signOut, auth } = NextAuth(authConfig)

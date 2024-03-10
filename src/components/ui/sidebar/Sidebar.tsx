@@ -17,7 +17,7 @@ const normalOptions = [
   {
     icon: <MdOutlinePersonOutline size={30} />,
     title: 'Perfil',
-    href: '/'
+    href: '/profile'
   },
   {
     icon: <MdPlaylistAddCheckCircle size={30} />,
