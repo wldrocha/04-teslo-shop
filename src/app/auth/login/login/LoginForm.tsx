@@ -27,7 +27,7 @@ export const LoginForm = () => {
       <input className='px-5 py-2 border bg-gray-200 rounded mb-5' name='password' type='password' />
 
       <div className='flex py-2 justify-center space-x-1' aria-live='polite' aria-atomic='true'>
-        {state !== 'Success' && (
+        {state !== undefined && state !== 'Success' && (
           <>
             <MdInfoOutline className='h-5 w-5 text-red-500' />
             <p className='text-sm text-red-500'>{state}</p>
