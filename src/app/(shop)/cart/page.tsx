@@ -1,7 +1,7 @@
 import { Title } from '@/components'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import { ProductsInCart } from './ui/ProductsinCart'
+import { ProductsInCart } from './ui/ProductsInCart'
 
 export default function CartPage() {
   // if (productsInCart.length === 0) {

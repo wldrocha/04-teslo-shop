@@ -8,7 +8,7 @@ interface State {
   addProductToCart: (product: CartProduct) => void
   getTotalItemsInCart: () => number
   updateProductQuantity: (product: CartProduct, quantity: number) => void
-  //   removeProductFromCart: (productId: string) => void
+  removeProductFromCart: (product: CartProduct) => void
 }
 
 export const useCartStore = create<State>()(
@@ -50,6 +50,15 @@ export const useCartStore = create<State>()(
           return item
         })
 
+        set({ cart: updatedCartProducts })
+      },
+      removeProductFromCart: (product) => {
+        console.log('🚀 ~ product:', product)
+        const { cart: itemsInCart } = get()
+
+        const updatedCartProducts = itemsInCart.filter(
+          (item) => !(item.id === product.id && item.size === product.size)
+        )
         set({ cart: updatedCartProducts })
       }
     }),
