@@ -5,6 +5,7 @@ import { ProductsInCart } from './ui/ProductsInCart'
 import { OrderSummary } from './ui/OrderSummary'
 
 export default function CartPage() {
+  
   // if (productsInCart.length === 0) {
   //   redirect('/empty')
   // }
