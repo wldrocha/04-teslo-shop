@@ -12,6 +12,7 @@ import {
 } from 'react-icons/md'
 import { SideBarItem } from './SideBarItem'
 import { useUIStore } from '@/store'
+import { logout } from '@/actions'
 
 const normalOptions = [
   {
@@ -32,7 +33,7 @@ const normalOptions = [
   {
     icon: <MdLogout size={30} />,
     title: 'Exit',
-    href: '/'
+    onClick: () => logout()
   }
 ]
 
