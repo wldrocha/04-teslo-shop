@@ -1,5 +1,4 @@
 import { CartProduct } from '@/interfaces'
-import { Size } from '@prisma/client'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
@@ -7,6 +6,7 @@ interface State {
   cart: CartProduct[]
   addProductToCart: (product: CartProduct) => void
   getTotalItemsInCart: () => number
+  getSummaryInformation: () => { subTotal: number; taxes: number; total: number; itemsInCart: number }
   updateProductQuantity: (product: CartProduct, quantity: number) => void
   removeProductFromCart: (product: CartProduct) => void
 }
@@ -16,8 +16,21 @@ export const useCartStore = create<State>()(
     (set, get) => ({
       cart: [],
       getTotalItemsInCart: () => {
-        const { cart } = get()
+        const { cart, getTotalItemsInCart } = get()
         return cart.reduce((total, item) => total + item.quantity, 0)
+      },
+      getSummaryInformation: () => {
+        const { cart, getTotalItemsInCart } = get()
+        const subTotal = cart.reduce((subTotal, product) => subTotal + product.quantity * product.price, 0)
+        const taxes = subTotal * 0.15
+        const total = subTotal + taxes
+        const itemsInCart = getTotalItemsInCart()
+        return {
+          subTotal,
+          taxes,
+          total,
+          itemsInCart
+        }
       },
       addProductToCart: (product: CartProduct) => {
         const { cart } = get()
