@@ -62,7 +62,7 @@ export const Sidebar = () => {
   const { isSideMenuOpen, closeSideMenu } = useUIStore((state) => state)
 
   const { data: session } = useSession()
-  console.log("🚀 ~ Sidebar ~ session:", session)
+
   const isAuthenticated = !!session?.user
   const isAdmin = session?.user?.role === 'admin'
 
