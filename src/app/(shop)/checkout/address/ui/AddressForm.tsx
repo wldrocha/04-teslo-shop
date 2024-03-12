@@ -1,8 +1,9 @@
 'use client'
 
-import { Country } from '@/interfaces'
-import clsx from 'clsx'
 import { useForm } from 'react-hook-form'
+import clsx from 'clsx'
+import { Country } from '@/interfaces'
+import { useAddressStore } from '@/store'
 
 interface FormInputs {
   name: string
@@ -29,8 +30,11 @@ export const AddressForm = ({ countries }: Props) => {
     }
   })
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const setAddress = useAddressStore((state) => state.setAddress)
+
   const onSubmit = (data: FormInputs) => {
-    console.log(data)
+    setAddress(data)
   }
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='grid grid-cols-1 gap-2 sm:gap-5 sm:grid-cols-2'>
