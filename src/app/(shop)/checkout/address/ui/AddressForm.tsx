@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import clsx from 'clsx'
 import { Country } from '@/interfaces'
 import { useAddressStore } from '@/store'
+import { useEffect } from 'react'
 
 interface FormInputs {
   name: string
@@ -23,15 +24,22 @@ export const AddressForm = ({ countries }: Props) => {
   const {
     handleSubmit,
     register,
-    formState: { isValid }
+    formState: { isValid },
+    reset
   } = useForm<FormInputs>({
     defaultValues: {
       // todo: set default values
     }
   })
-
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const setAddress = useAddressStore((state) => state.setAddress)
+  const address = useAddressStore((state) => state.address)
+
+  useEffect(() => {
+    if (address.name) {
+      reset(address)
+    }
+  }, [address])
 
   const onSubmit = (data: FormInputs) => {
     setAddress(data)
@@ -103,7 +111,6 @@ export const AddressForm = ({ countries }: Props) => {
             checked:border-blue-500 checked:bg-blue-500 
             checked:before:bg-blue-500 hover:before:opacity-10"
             id='checkbox'
-            // checked
             {...register('rememberAddress')}
           />
           <div className='pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100'>
