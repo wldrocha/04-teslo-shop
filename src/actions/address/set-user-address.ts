@@ -2,7 +2,6 @@
 import prisma from '@/lib/prisma'
 
 import { Address } from '@/interfaces'
-import { tree } from 'next/dist/build/templates/app-page'
 
 export const setUserAddress = async (address: Address, userId: string) => {
   try {

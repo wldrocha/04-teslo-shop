@@ -5,6 +5,8 @@ import clsx from 'clsx'
 import { Country } from '@/interfaces'
 import { useAddressStore } from '@/store'
 import { useEffect } from 'react'
+import { setUserAddress } from '@/actions'
+import { useSession } from 'next-auth/react'
 
 interface FormInputs {
   firstName: string
@@ -31,6 +33,9 @@ export const AddressForm = ({ countries }: Props) => {
       // todo: set default values
     }
   })
+  // required is used when the user is not logged , so we need to redirect to login
+  const { data: session } = useSession({ required: true })
+
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const setAddress = useAddressStore((state) => state.setAddress)
   const address = useAddressStore((state) => state.address)
@@ -39,16 +44,23 @@ export const AddressForm = ({ countries }: Props) => {
     if (address.firstName) {
       reset(address)
     }
-  }, [address])
+  }, [address?.firstName])
 
-  const onSubmit = (data: FormInputs) => {
-    setAddress(data)
+  const onSubmit = (formData: FormInputs) => {
+    setAddress(formData)
+    if (formData.rememberAddress) {
+      setUserAddress(formData, session!.user?.id)
+    }
   }
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='grid grid-cols-1 gap-2 sm:gap-5 sm:grid-cols-2'>
       <div className='flex flex-col mb-2'>
         <label>Name</label>
-        <input type='text' className='p-2 border rounded-md bg-gray-200' {...register('firstName', { required: true })} />
+        <input
+          type='text'
+          className='p-2 border rounded-md bg-gray-200'
+          {...register('firstName', { required: true })}
+        />
       </div>
 
       <div className='flex flex-col mb-2'>
