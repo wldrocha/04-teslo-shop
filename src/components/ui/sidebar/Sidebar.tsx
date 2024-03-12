@@ -12,26 +12,30 @@ import {
 } from 'react-icons/md'
 import { SideBarItem } from './SideBarItem'
 import { useUIStore } from '@/store'
+import { logout } from '@/actions'
+import { useSession } from 'next-auth/react'
+
+const loginOption = {
+  icon: <MdLogin size={30} />,
+  title: 'Login',
+  href: '/auth/login'
+}
+
+const logoutOption = {
+  icon: <MdLogout size={30} />,
+  title: 'Exit',
+  onClick: () => logout()
+}
 
 const normalOptions = [
   {
     icon: <MdOutlinePersonOutline size={30} />,
     title: 'Perfil',
-    href: '/'
+    href: '/profile'
   },
   {
     icon: <MdPlaylistAddCheckCircle size={30} />,
     title: 'Ordenes',
-    href: '/'
-  },
-  {
-    icon: <MdLogin size={30} />,
-    title: 'Login',
-    href: '/'
-  },
-  {
-    icon: <MdLogout size={30} />,
-    title: 'Exit',
     href: '/'
   }
 ]
@@ -56,6 +60,11 @@ const adminOptions = [
 
 export const Sidebar = () => {
   const { isSideMenuOpen, closeSideMenu } = useUIStore((state) => state)
+
+  const { data: session } = useSession()
+
+  const isAuthenticated = !!session?.user
+  const isAdmin = session?.user?.role === 'admin'
 
   return (
     <div className=''>
@@ -88,17 +97,24 @@ export const Sidebar = () => {
         </div>
         {/* Option menu */}
 
-        {normalOptions.map((normalOption, index) => (
-          <SideBarItem key={index} {...normalOption} />
-        ))}
+        {isAuthenticated && (
+          <>
+            {normalOptions.map((normalOption, index) => (
+              <SideBarItem key={index} closeSideMenu={closeSideMenu} {...normalOption} />
+            ))}
+            <SideBarItem closeSideMenu={closeSideMenu} {...logoutOption} />
+          </>
+        )}
+        {!isAuthenticated && <SideBarItem closeSideMenu={closeSideMenu} {...loginOption} />}
 
         <div className='w-full h-px bg-gray-200 my-10' />
 
-        {/* Option menu */}
-
-        {adminOptions.map((adminOption, index) => (
-          <SideBarItem key={index} {...adminOption} />
-        ))}
+        {/* Option admin menu */}
+        {isAuthenticated &&
+          isAdmin &&
+          adminOptions.map((adminOption, index) => (
+            <SideBarItem key={index} closeSideMenu={closeSideMenu} {...adminOption} />
+          ))}
       </nav>
     </div>
   )
