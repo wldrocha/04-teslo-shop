@@ -2,11 +2,12 @@
 
 import { useForm } from 'react-hook-form'
 import clsx from 'clsx'
-import { Country } from '@/interfaces'
+import { Address, Country } from '@/interfaces'
 import { useAddressStore } from '@/store'
 import { useEffect } from 'react'
 import { deleteUserAddress, setUserAddress } from '@/actions'
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 interface FormInputs {
   firstName: string
@@ -21,8 +22,10 @@ interface FormInputs {
 }
 interface Props {
   countries: Country[]
+  userAddressStore?: Partial<Address>
 }
-export const AddressForm = ({ countries }: Props) => {
+export const AddressForm = ({ countries, userAddressStore = {} }: Props) => {
+  const router = useRouter()
   const {
     handleSubmit,
     register,
@@ -30,7 +33,8 @@ export const AddressForm = ({ countries }: Props) => {
     reset
   } = useForm<FormInputs>({
     defaultValues: {
-      // todo: set default values
+      ...(userAddressStore as any),
+      rememberAddress: false
     }
   })
   // required is used when the user is not logged , so we need to redirect to login
@@ -42,17 +46,20 @@ export const AddressForm = ({ countries }: Props) => {
   const deleteAddress = useAddressStore((state) => state.deleteAddress)
 
   useEffect(() => {
-    reset(address)
+    if (address.firstName) {
+      reset(address)
+    }
   }, [address])
 
-  const onSubmit = (formData: FormInputs) => {
+  const onSubmit = async (formData: FormInputs) => {
     setAddress(formData)
     if (formData.rememberAddress) {
-      setUserAddress(formData, session!.user?.id)
+      await setUserAddress(formData, session!.user?.id)
     } else {
-      deleteUserAddress(session!.user?.id)
+      await deleteUserAddress(session!.user?.id)
       deleteAddress()
     }
+    router.push('/checkout')
   }
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='grid grid-cols-1 gap-2 sm:gap-5 sm:grid-cols-2'>
