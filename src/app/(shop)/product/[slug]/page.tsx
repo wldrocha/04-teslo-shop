@@ -1,10 +1,11 @@
 export const revalidate = 60 * 60
 import { getProductBySlug } from '@/actions'
-import { ProductMobileSlideShow, ProductSlideShow, QuantitySelector, SizeSelector, StockLabel } from '@/components'
+import { ProductMobileSlideShow, ProductSlideShow, StockLabel } from '@/components'
 import { titleFont } from '@/config/font'
 import { Metadata, ResolvingMetadata } from 'next'
 // import { initialData } from '@/seed/seed'
 import { notFound } from 'next/navigation'
+import { AddToCart } from './ui/AddToCart'
 
 interface Props {
   params: {
@@ -53,14 +54,7 @@ export default async function ProductDetailPage({ params }: Props) {
         <StockLabel slug={slug} />
         <h1 className={`${titleFont.className} antialiased font-bold text-xl`}>{product.name}</h1>
 
-        {/* size selector */}
-        <SizeSelector selectedSize={product.sizes[0]} availableSizes={product.sizes} />
-
-        {/* quantity selector */}
-        <QuantitySelector quantity={1} />
-        {/* button */}
-        <p className='text-lg mb-5'>$ {product.price}</p>
-        <button className='btn-primary my-5'>Add to Cart</button>
+        <AddToCart product={product} />
         <h3 className='font-bold text-sm'>Description</h3>
         <p className='font-light'>{product.description}</p>
       </div>
