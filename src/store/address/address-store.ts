@@ -1,16 +1,6 @@
+import { Address } from '@/interfaces'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-
-interface Address {
-  firstName: string
-  lastName: string
-  address: string
-  address2: string
-  zip: string
-  city: string
-  country: string
-  phone: string
-}
 
 interface State {
   address: Address
