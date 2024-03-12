@@ -90,6 +90,7 @@ model UserAddress {
   lastName  String
   address   String
   address2  String?
+  city      String
   zip       String
   phone     String
   // relations
