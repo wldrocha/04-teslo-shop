@@ -10,6 +10,17 @@ export interface Product {
   title: string
   // type: Type
   gender: Category
+  name?: string
+}
+
+export interface CartProduct {
+  id: string
+  slug: string
+  title: string
+  price: number
+  quantity: number
+  size: Size
+  image: string
 }
 
 export type Category = 'men' | 'women' | 'kid' | 'unisex'
