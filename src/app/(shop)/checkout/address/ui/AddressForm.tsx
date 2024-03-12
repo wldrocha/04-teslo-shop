@@ -5,7 +5,7 @@ import clsx from 'clsx'
 import { Country } from '@/interfaces'
 import { useAddressStore } from '@/store'
 import { useEffect } from 'react'
-import { setUserAddress } from '@/actions'
+import { deleteUserAddress, setUserAddress } from '@/actions'
 import { useSession } from 'next-auth/react'
 
 interface FormInputs {
@@ -39,17 +39,19 @@ export const AddressForm = ({ countries }: Props) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const setAddress = useAddressStore((state) => state.setAddress)
   const address = useAddressStore((state) => state.address)
+  const deleteAddress = useAddressStore((state) => state.deleteAddress)
 
   useEffect(() => {
-    if (address.firstName) {
-      reset(address)
-    }
-  }, [address?.firstName])
+    reset(address)
+  }, [address])
 
   const onSubmit = (formData: FormInputs) => {
     setAddress(formData)
     if (formData.rememberAddress) {
       setUserAddress(formData, session!.user?.id)
+    } else {
+      deleteUserAddress(session!.user?.id)
+      deleteAddress()
     }
   }
   return (
