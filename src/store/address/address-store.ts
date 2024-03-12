@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 interface Address {
-  name: string
+  firstName: string
   lastName: string
   address: string
   address2: string
@@ -21,7 +21,7 @@ export const useAddressStore = create<State>()(
   persist(
     (set, get) => ({
       address: {
-        name: '',
+        firstName: '',
         lastName: '',
         address: '',
         address2: '',

@@ -7,7 +7,7 @@ import { useAddressStore } from '@/store'
 import { useEffect } from 'react'
 
 interface FormInputs {
-  name: string
+  firstName: string
   lastName: string
   address: string
   address2: string
@@ -36,7 +36,7 @@ export const AddressForm = ({ countries }: Props) => {
   const address = useAddressStore((state) => state.address)
 
   useEffect(() => {
-    if (address.name) {
+    if (address.firstName) {
       reset(address)
     }
   }, [address])
@@ -48,7 +48,7 @@ export const AddressForm = ({ countries }: Props) => {
     <form onSubmit={handleSubmit(onSubmit)} className='grid grid-cols-1 gap-2 sm:gap-5 sm:grid-cols-2'>
       <div className='flex flex-col mb-2'>
         <label>Name</label>
-        <input type='text' className='p-2 border rounded-md bg-gray-200' {...register('name', { required: true })} />
+        <input type='text' className='p-2 border rounded-md bg-gray-200' {...register('firstName', { required: true })} />
       </div>
 
       <div className='flex flex-col mb-2'>
