@@ -3,14 +3,19 @@ import { placeOrder } from '@/actions'
 import { useAddressStore, useCartStore } from '@/store'
 import { currencyFormat } from '@/utils'
 import clsx from 'clsx'
+import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 export const PlaceOrder = () => {
+  const router = useRouter()
+
   const [loaded, setLoaded] = useState(false)
+  const [errorMsg, setErrorMsg] = useState('')
   const [isPlacingOrder, setIsPlacingOrder] = useState(false)
 
   const address = useAddressStore((state) => state.address)
   const cart = useCartStore((state) => state.cart)
+  const clearCart = useCartStore((state) => state.clearCart)
 
   const { subTotal, taxes, total, itemsInCart } = useCartStore((state) => state.getSummaryInformation())
 
@@ -30,7 +35,13 @@ export const PlaceOrder = () => {
     })
 
     const response = await placeOrder(productToORder, address)
-    console.log(`🚀 ~ onPlaceOrder ~ response:`, response)
+    if (!response.ok) {
+      setIsPlacingOrder(false)
+      setErrorMsg(response.message)
+      return
+    }
+    clearCart()
+    router.replace(`/orders/${response.order?.id}`)
   }
 
   if (!loaded) {
@@ -62,7 +73,7 @@ export const PlaceOrder = () => {
         <span className='mt-5 text-2xl '>Total</span>
         <span className='mt-5 text-2xl text-right'>{currencyFormat(total)}</span>
       </div>
-      {/* <p className=' text-red-500'> Error on creation </p> */}
+      <p className=' text-red-500'>{errorMsg}</p>
       <div className='mt-5 mb-2 w-full'>
         <button
           // href='/checkout/123'

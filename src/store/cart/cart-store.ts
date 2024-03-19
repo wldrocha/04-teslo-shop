@@ -9,6 +9,7 @@ interface State {
   getSummaryInformation: () => { subTotal: number; taxes: number; total: number; itemsInCart: number }
   updateProductQuantity: (product: CartProduct, quantity: number) => void
   removeProductFromCart: (product: CartProduct) => void
+  clearCart: () => void
 }
 
 export const useCartStore = create<State>()(
@@ -73,6 +74,9 @@ export const useCartStore = create<State>()(
           (item) => !(item.id === product.id && item.size === product.size)
         )
         set({ cart: updatedCartProducts })
+      },
+      clearCart: () => {
+        set({ cart: [] })
       }
     }),
     { name: 'shoppping-cart' }
