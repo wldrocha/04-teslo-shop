@@ -77,12 +77,23 @@ export const placeOrder = async (productsInOrder: ProductToOrder[], address: Add
     if (order.total === 0) {
       throw new Error('Order total is 0')
     }
-    console.log(`🚀 ~ prismaTx ~ order:`, order)
 
     // 3. create order address
+    const { country, ...restAddress } = address
+
+    const orderAddress = await tx.orderAddress.create({
+      data: {
+        orderId: order.id,
+        countryId: country,
+        ...restAddress
+      }
+    })
+
+    // 4.
 
     return {
-      order
+      order,
+      orderAddress
     }
   })
 }
