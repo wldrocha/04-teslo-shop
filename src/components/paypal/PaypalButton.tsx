@@ -1,8 +1,8 @@
 'use client'
 
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js'
-import { CreateOrderData, CreateOrderActions } from '@paypal/paypal-js'
-import { setTransactionId } from '@/actions'
+import { CreateOrderData, CreateOrderActions, OnApproveData, OnApproveActions } from '@paypal/paypal-js'
+import { paypalCheckPayment, setTransactionId } from '@/actions'
 
 interface Props {
   orderId: string
@@ -42,5 +42,13 @@ export const PaypalButton = ({ orderId, amount }: Props) => {
 
     return transactionId
   }
-  return <PayPalButtons createOrder={createOrder} />
+
+  const onApprove = async (data: OnApproveData, actions: OnApproveActions) => {
+    const details = await actions.order?.capture()
+    if (!details) return
+
+    await paypalCheckPayment(details.id)
+  }
+
+  return <PayPalButtons createOrder={createOrder} onApprove={onApprove} />
 }
