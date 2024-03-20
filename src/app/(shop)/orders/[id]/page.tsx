@@ -25,7 +25,7 @@ export default async function OrderParticularPage({ params }: Props) {
   return (
     <div className='flex justify-center items-center mb-72 px-10 sm:px-0'>
       <div className='flex flex-col w-[1000px]'>
-        <Title title={`Order # ${id.split('-').at(1)}`} />
+        <Title title={`Order # ${id.split('-').at(-1)}`} />
         <div className='grid grid-cols-1 sm:grid-cols-2 gap-2'>
           {/* cart */}
           <div className='flex flex-col mt-5'>
