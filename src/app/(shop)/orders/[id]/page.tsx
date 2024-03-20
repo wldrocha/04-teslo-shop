@@ -92,7 +92,7 @@ export default async function OrderParticularPage({ params }: Props) {
             </div>
 
             <div className='mt-5 mb-2 w-full'>
-              <PaypalButton />
+              <PaypalButton amount={order!.total} orderId={order!.id} />
             </div>
           </div>
         </div>
