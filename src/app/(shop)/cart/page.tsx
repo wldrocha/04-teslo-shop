@@ -5,7 +5,6 @@ import { ProductsInCart } from './ui/ProductsInCart'
 import { OrderSummary } from './ui/OrderSummary'
 
 export default function CartPage() {
-  
   // if (productsInCart.length === 0) {
   //   redirect('/empty')
   // }
@@ -27,6 +26,12 @@ export default function CartPage() {
 
           {/* Checkout */}
           <OrderSummary />
+
+          <div className='mt-5 mb-2 w-full'>
+            <Link className='flex btn-primary justify-center'href="/checkout/address">
+              Checkout
+            </Link>
+          </div>
         </div>
       </div>
     </div>

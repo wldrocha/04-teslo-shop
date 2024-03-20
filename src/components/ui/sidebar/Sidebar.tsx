@@ -36,7 +36,7 @@ const normalOptions = [
   {
     icon: <MdPlaylistAddCheckCircle size={30} />,
     title: 'Ordenes',
-    href: '/'
+    href: '/orders'
   }
 ]
 
