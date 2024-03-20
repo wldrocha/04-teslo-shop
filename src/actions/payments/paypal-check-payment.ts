@@ -1,5 +1,6 @@
 'use server'
 
+import prisma from '@/lib/prisma'
 import { PaypalOrderStatusResponse } from '@/interfaces'
 
 export const paypalCheckPayment = async (paypalTransactionId: string) => {
@@ -19,7 +20,6 @@ export const paypalCheckPayment = async (paypalTransactionId: string) => {
   }
 
   const { status, purchase_units } = resp
-  console.log(`🚀 ~ paypalCheckPayment ~ status, purchase_units:`, status, purchase_units)
 
   if (status !== 'COMPLETED') {
     return {
@@ -28,7 +28,26 @@ export const paypalCheckPayment = async (paypalTransactionId: string) => {
     }
   }
 
-  
+  try {
+    console.log(`🚀 ~ paypalCheckPayment ~ status, purchase_units:`, status, purchase_units)
+    await prisma.order.update({
+      where: {
+        id: 'bb5c2296-f8a5-479f-ac2b-f609f48569bc'
+      },
+      data: {
+        isPaid: true,
+        paidAt: new Date()
+      }
+    })
+
+    // revalidate path
+  } catch (error) {
+    console.log(`🚀 ~ paypalCheckPayment ~ error:`, error)
+    return {
+      ok: false,
+      error: '500 Payment not completed'
+    }
+  }
 
   // const { amount } = purchase_units[0] todo
 }
@@ -54,7 +73,7 @@ const getPaypalBearerToken = async (): Promise<string | null> => {
   }
 
   try {
-    const result = await fetch(oAuth2URl, requestOptions).then((r) => r.json())
+    const result = await fetch(oAuth2URl, { ...requestOptions, cache: 'no-store' }).then((r) => r.json())
     return result.access_token
   } catch (error) {
     console.log('error', error)
@@ -76,7 +95,7 @@ const verifyPaypalPayment = async (
   }
 
   try {
-    const resp = await fetch(paypalOrderUrl, requestOptions).then((r) => r.json())
+    const resp = await fetch(paypalOrderUrl, { ...requestOptions, cache: 'no-store' }).then((r) => r.json())
 
     return resp
   } catch (error) {
