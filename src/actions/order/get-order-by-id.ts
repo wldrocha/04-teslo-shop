@@ -1,38 +1,66 @@
 'use server'
+import { auth } from '@/auth.config'
 import prisma from '@/lib/prisma'
 
-export const getOrderById = async (orderId: string) => {
-  //   console.log(`🚀 ~ getOrderById ~ orderId:`, orderId)
-  const products = await prisma.order.findUnique({
-    where: {
-      id: orderId
-    },
-    include: {
-      OrderItem: {
-        include: {
-          product: {
-            include: {
-              ProductImage: true
+export const getOrderById = async (id: string) => {
+  const session = await auth()
+
+  if (!session?.user) {
+    return {
+      ok: false,
+      message: 'User not found'
+    }
+  }
+
+  try {
+    const order = await prisma.order.findUnique({
+      where: {
+        id
+      },
+      include: {
+        orderAddress: {
+          include: {
+            country: true
+          }
+        },
+        OrderItem: {
+          select: {
+            price: true,
+            quantity: true,
+            size: true,
+            product: {
+              select: {
+                name: true,
+                slug: true,
+                ProductImage: {
+                  select: {
+                    url: true
+                  },
+                  take: 1
+                }
+              }
             }
           }
         }
-      },
-      orderAddress: {
-        include: {
-          country: true
-        }
       }
+    })
+    if (!order) {
+      throw `${id} not found`
     }
-  })
-  if (!products) {
+
+    if (session.user.role === 'user' && session.user.id !== order.userId) {
+      throw `${id} is not your order`
+    }
+
+    return {
+      ok: true,
+      order
+    }
+  } catch (error) {
     return {
       ok: false,
-      message: 'Order not found'
+      message: 'Error with order',
+      error
     }
-  }
-  //   console.log(`🚀 ~ getOrderById ~ products:`, products)
-  return {
-    ok: true,
-    data: products
   }
 }
