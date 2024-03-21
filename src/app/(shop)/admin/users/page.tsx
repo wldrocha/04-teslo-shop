@@ -10,7 +10,7 @@ export default async function AllUsersPage() {
   console.log(`🚀 ~ AllUsersPage ~ ok:`, ok)
 
   if (!ok) {
-    // redirect('/auth/login')
+    redirect('/auth/login')
   }
 
   return (
