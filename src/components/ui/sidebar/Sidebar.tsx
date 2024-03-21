@@ -35,7 +35,7 @@ const normalOptions = [
   },
   {
     icon: <MdPlaylistAddCheckCircle size={30} />,
-    title: 'Ordenes',
+    title: 'Orders',
     href: '/orders'
   }
 ]
@@ -48,8 +48,8 @@ const adminOptions = [
   },
   {
     icon: <MdPlaylistAddCheckCircle size={30} />,
-    title: 'Orders',
-    href: '/'
+    title: 'All Orders',
+    href: '/admin/orders'
   },
   {
     icon: <MdPeopleOutline size={30} />,
