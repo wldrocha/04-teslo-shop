@@ -44,7 +44,7 @@ const adminOptions = [
   {
     icon: <MdOutlineCheckroom size={30} />,
     title: 'Products',
-    href: '/'
+    href: '/admin/products'
   },
   {
     icon: <MdPlaylistAddCheckCircle size={30} />,
