@@ -54,7 +54,7 @@ const adminOptions = [
   {
     icon: <MdPeopleOutline size={30} />,
     title: 'Users',
-    href: '/'
+    href: '/admin/users'
   }
 ]
 
