@@ -27,6 +27,8 @@ export const PaypalButton = ({ orderId, amount }: Props) => {
       intent: 'CAPTURE',
       purchase_units: [
         {
+          // validation order on paypal
+          invoice_id: orderId,
           amount: {
             currency_code: 'USD',
             value: `${roundedAmount}`
