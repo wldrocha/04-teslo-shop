@@ -1,3 +1,4 @@
+export * from './orders/OrderStatus'
 export * from './paypal/PaypalButton'
 export * from './product/quantity-selector/QuantitySelector'
 export * from './product/size-selector/SizeSelector'
