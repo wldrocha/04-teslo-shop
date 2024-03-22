@@ -1,11 +1,12 @@
 'use client'
 
 import { Category, Product, ProductImage } from '@/interfaces'
+import clsx from 'clsx'
 import Image from 'next/image'
 import { useForm } from 'react-hook-form'
 
 interface Props {
-  product: Product
+  product: Product & { ProductImage?: ProductImage[] }
   categories: Category[]
 }
 
@@ -29,7 +30,10 @@ export const ProductForm = ({ product, categories }: Props) => {
   const {
     handleSubmit,
     register,
-    formState: { isValid }
+    formState: { isValid },
+    getValues,
+    setValue,
+    watch
   } = useForm<FormInputs>({
     defaultValues: {
       ...product,
@@ -39,9 +43,13 @@ export const ProductForm = ({ product, categories }: Props) => {
     }
   })
 
-  const onSubmit = async (data: FormInputs) => {
-    console.log(`🚀 ~ onSubmit ~ data:`, data)
+  const onSizeChanged = (size: string) => {
+    const sizes = getValues('sizes')
+    const newSizes = sizes.includes(size) ? sizes.filter((s) => s !== size) : [...sizes, size]
+    setValue('sizes', newSizes)
   }
+
+  const onSubmit = async (data: FormInputs) => {}
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='grid px-5 mb-16 grid-cols-1 sm:px-0 sm:grid-cols-2 gap-3'>
@@ -114,7 +122,13 @@ export const ProductForm = ({ product, categories }: Props) => {
           <div className='flex flex-wrap'>
             {sizes.map((size) => (
               // bg-blue-500 text-white <--- si está seleccionado
-              <div key={size} className='flex  items-center justify-center w-10 h-10 mr-2 border rounded-md'>
+              <div
+                key={size}
+                onClick={() => onSizeChanged(size)}
+                className={clsx('flex  items-center justify-center w-14 h-10 mr-2 border rounded-md transition-all', {
+                  'bg-blue-500 text-white': watch('sizes').includes(size)
+                })}
+              >
                 <span>{size}</span>
               </div>
             ))}
@@ -131,7 +145,22 @@ export const ProductForm = ({ product, categories }: Props) => {
             />
           </div>
 
-        
+          <div className='grid grid-cols-1 sm:grid-cols-3 gap-3'>
+            {product.ProductImage?.map((image) => (
+              <div key={image.id}>
+                <Image
+                  src={`/products/${image.url}`}
+                  alt={product.title}
+                  width={300}
+                  height={300}
+                  className='rounded-t shadow-md '
+                />
+                <button type='button' className='btn-danger w-full rounded-b-xl'>
+                  Delete
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </form>
