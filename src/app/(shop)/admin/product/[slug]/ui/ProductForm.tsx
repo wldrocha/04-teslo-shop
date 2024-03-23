@@ -1,5 +1,6 @@
 'use client'
 
+import { createOrUpdateProduct } from '@/actions'
 import { Category, Product, ProductImage } from '@/interfaces'
 import clsx from 'clsx'
 import Image from 'next/image'
@@ -49,7 +50,23 @@ export const ProductForm = ({ product, categories }: Props) => {
     setValue('sizes', newSizes)
   }
 
-  const onSubmit = async (data: FormInputs) => {}
+  const onSubmit = async (data: FormInputs) => {
+    const formData = new FormData()
+
+    const { ...productToSave } = data
+    formData.append('id', productToSave.id ?? '')
+    formData.append('name', productToSave.name)
+    formData.append('slug', productToSave.slug)
+    formData.append('description', productToSave.description)
+    formData.append('price', productToSave.price.toString())
+    formData.append('inStock', productToSave.inStock.toString())
+    formData.append('sizes', productToSave.sizes.toString())
+    formData.append('tags', productToSave.tags)
+    formData.append('gender', productToSave.gender)
+    formData.append('categoryId', productToSave.categoryId)
+
+    const { ok } = await createOrUpdateProduct(formData)
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='grid px-5 mb-16 grid-cols-1 sm:px-0 sm:grid-cols-2 gap-3'>
