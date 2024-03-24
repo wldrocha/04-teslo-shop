@@ -2,13 +2,13 @@
 
 import { createOrUpdateProduct } from '@/actions'
 import { ProductImage } from '@/components'
-import { Category, Product, ProductImage } from '@/interfaces'
+import { Category, Product, ProductImage as ProductImageInterface } from '@/interfaces'
 import clsx from 'clsx'
-import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 
 interface Props {
-  product: Partial<Product> & { ProductImage?: ProductImage[] }
+  product: Partial<Product> & { ProductImage?: ProductImageInterface[] }
   categories: Category[]
 }
 
@@ -29,6 +29,7 @@ interface FormInputs {
 }
 
 export const ProductForm = ({ product, categories }: Props) => {
+  const router = useRouter()
   const {
     handleSubmit,
     register,
@@ -69,7 +70,12 @@ export const ProductForm = ({ product, categories }: Props) => {
     formData.append('gender', productToSave.gender)
     formData.append('categoryId', productToSave.categoryId)
 
-    const { ok } = await createOrUpdateProduct(formData)
+    const { ok, product: updatedProduct } = await createOrUpdateProduct(formData)
+    if (!ok) {
+      return
+    }
+
+    router.replace(`/admin/product/${updatedProduct?.slug}`)
   }
 
   return (
