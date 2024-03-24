@@ -1,9 +1,12 @@
 'use server'
 
 import { Gender, Product, Size } from '@prisma/client'
-import { z } from 'zod'
+import { promise, z } from 'zod'
 import prisma from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
+import { v2 as cloudinary } from 'cloudinary'
+
+cloudinary.config(process.env.CLOUDINARY_URL ?? '')
 
 const productSchema = z.object({
   id: z.string().uuid().optional().nullable(),
@@ -72,14 +75,28 @@ export const createOrUpdateProduct = async (formData: FormData) => {
           }
         })
       }
-  
+
+      if (formData.getAll('images')) {
+        const images = await uploadImages(formData.getAll('images') as File[])
+        if (!images) {
+          throw new Error('cannot upload images, rollingback')
+        }
+        await prisma.productImage.createMany({
+          data: images.map((image) => ({
+            url: image!,
+            productId: product.id
+          }))
+        })
+      }
+
       return {
         product
       }
     })
 
-    revalidatePath('admin/products')
-    revalidatePath(`admin/product/${product.slug}`)
+    revalidatePath('/admin/products')
+    revalidatePath(`/admin/product/${product.slug}`)
+    revalidatePath(`/products/${product.slug}`)
 
     return {
       ok: true,
@@ -87,10 +104,30 @@ export const createOrUpdateProduct = async (formData: FormData) => {
     }
   } catch (error) {
     return {
-      ok:false,
+      ok: false,
       message: 'review logs'
     }
   }
+}
 
+const uploadImages = async (images: File[]) => {
+  try {
+    const uploadPromises = images.map(async (image) => {
+      try {
+        const buffer = await image.arrayBuffer()
+        const base64Image = Buffer.from(buffer).toString('base64')
+        return cloudinary.uploader.upload(`data:image/png;base64,${base64Image}`).then((r) => r.secure_url)
+      } catch (error) {
+        console.log(`🚀 ~ uploadPromises ~ error:`, error)
+        return null
+      }
+    })
 
+    const uploadImages = await Promise.all(uploadPromises)
+
+    return uploadImages
+  } catch (error) {
+    console.log(`🚀 ~ uploadImages ~ error:`, error)
+    return null
+  }
 }
