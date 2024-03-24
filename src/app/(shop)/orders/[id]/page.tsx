@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
 import { getOrderById } from '@/actions'
-import { OrderStatus, PaypalButton, Title } from '@/components'
+import { OrderStatus, PaypalButton, ProductImage, Title } from '@/components'
 import { currencyFormat } from '@/utils'
 
 interface Props {
@@ -32,8 +32,8 @@ export default async function OrderParticularPage({ params }: Props) {
             {/* Items */}
             {order?.OrderItem?.map((item) => (
               <div key={item.product.slug} className='flex mb-5'>
-                <Image
-                  src={`/products/${item.product.ProductImage[0].url}`}
+                <ProductImage
+                  src={item.product.ProductImage[0].url}
                   width={100}
                   height={100}
                   alt={item.product.slug}
