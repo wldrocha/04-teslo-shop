@@ -28,7 +28,7 @@ export default async function AllOrdersPage({ searchParams }: AdminProductProps)
     <>
       <Title title='Maintance product' />
       <div className='flex justify-end mb-5'>
-        <Link href='/admin/products/new' className='btn-primary'>
+        <Link href='/admin/product/new' className='btn-primary'>
           Add new product
         </Link>
       </div>

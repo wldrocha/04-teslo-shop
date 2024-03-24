@@ -56,16 +56,27 @@ export const createOrUpdateProduct = async (formData: FormData) => {
           }
         }
       })
-
-      console.log(`🚀 ~ prismaTx ~ product:`, product)
     } else {
       //create
+      product = await prisma.product.create({
+        data: {
+          ...restProduct,
+          sizes: {
+            set: restProduct.sizes as Size[]
+          },
+          tags: {
+            set: tagsArray
+          }
+        }
+      })
     }
 
-    return {}
+    return {
+      product
+    }
   })
 
-//   Todo Revalidate
+  //   Todo Revalidate
 
   return {
     ok: true
