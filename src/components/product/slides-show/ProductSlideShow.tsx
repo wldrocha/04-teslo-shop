@@ -7,7 +7,7 @@ import { Autoplay, FreeMode, Navigation, Thumbs } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/free-mode'
 import './slideShow.css'
-import Image from 'next/image'
+import { ProductImage } from '@/components'
 
 interface Props {
   images: string[]
@@ -28,14 +28,14 @@ export const ProductSlideShow = ({ images, title, className }: Props) => {
         }
         spaceBetween={10}
         navigation={true}
-        autoplay={{delay: 2500, disableOnInteraction: false}}
+        autoplay={{ delay: 2500, disableOnInteraction: false }}
         thumbs={{ swiper: thumbsSwiper }}
         modules={[FreeMode, Navigation, Thumbs, Autoplay]}
         className='mySwiper2'
       >
         {images.map((image) => (
           <SwiperSlide key={image}>
-            <Image src={`/products/${image}`} width={1024} height={800} alt={title} className='rounded object-fill' />
+            <ProductImage src={image} width={1024} height={800} alt={title} className='rounded object-fill' />
           </SwiperSlide>
         ))}
       </Swiper>
@@ -50,7 +50,7 @@ export const ProductSlideShow = ({ images, title, className }: Props) => {
       >
         {images.map((image) => (
           <SwiperSlide key={image}>
-            <Image src={`/products/${image}`} width={250} height={250} alt={title} className='rounded object-fill' />
+            <ProductImage src={image} width={250} height={250} alt={title} className='rounded object-fill' />
           </SwiperSlide>
         ))}
       </Swiper>
