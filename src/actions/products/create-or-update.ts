@@ -4,9 +4,8 @@ import { Gender, Product, Size } from '@prisma/client'
 import { promise, z } from 'zod'
 import prisma from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
-import { v2 as cloudinary } from 'cloudinary'
+import cloudinary from '@/lib/cloudinary'
 
-cloudinary.config(process.env.CLOUDINARY_URL ?? '')
 
 const productSchema = z.object({
   id: z.string().uuid().optional().nullable(),

@@ -1,6 +1,6 @@
 'use client'
 
-import { createOrUpdateProduct } from '@/actions'
+import { createOrUpdateProduct, deleteProductImage } from '@/actions'
 import { ProductImage } from '@/components'
 import { Category, Product, ProductImage as ProductImageInterface } from '@/interfaces'
 import clsx from 'clsx'
@@ -197,7 +197,11 @@ export const ProductForm = ({ product, categories }: Props) => {
                   height={300}
                   className='rounded-t shadow-md '
                 />
-                <button type='button' className='btn-danger w-full rounded-b-xl'>
+                <button
+                  type='button'
+                  className='btn-danger w-full rounded-b-xl'
+                  onClick={() => deleteProductImage(image.id, image.url)}
+                >
                   Delete
                 </button>
               </div>
