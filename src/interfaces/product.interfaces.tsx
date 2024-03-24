@@ -1,4 +1,5 @@
 export interface Product {
+  id: string
   //   id: string
   description: string
   images: string[]
@@ -29,7 +30,7 @@ export interface ProductImage {
   productId: string
 }
 
-export type Category = 'men' | 'women' | 'kid' | 'unisex'
+type Category = 'men' | 'women' | 'kid' | 'unisex'
 
 export type Size = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL'
 export type Type = 'shirts' | 'pants' | 'hoodies' | 'hats'

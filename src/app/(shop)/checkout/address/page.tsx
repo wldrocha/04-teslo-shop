@@ -2,6 +2,7 @@ import { Title } from '@/components'
 import { AddressForm } from './ui/AddressForm'
 import { getCountries, getUserAddress } from '@/actions'
 import { auth } from '@/auth.config'
+import { Address, Country } from '@/interfaces'
 
 export default async function NamePage() {
   const countries = await getCountries()
@@ -18,7 +19,10 @@ export default async function NamePage() {
       <div className='w-full  xl:w-[1000px] flex flex-col justify-center text-left'>
         <Title title='Dirección' subtitle='Dirección de entrega' />
 
-        <AddressForm countries={countries} userAddressStore={userAddress} />
+        <AddressForm
+          countries={countries as unknown as Country[]}
+          userAddressStore={userAddress as Partial<Address> | undefined}
+        />
       </div>
     </div>
   )

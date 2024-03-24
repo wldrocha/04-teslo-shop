@@ -21,7 +21,7 @@ export const AddToCart = ({ product }: Props) => {
     const cartProduct: CartProduct = {
       id: product.id,
       slug: product.slug,
-      title: product.name,
+      title: product.name ?? '', // Provide a default value for product.name
       price: product.price,
       quantity: quantity,
       size: size,

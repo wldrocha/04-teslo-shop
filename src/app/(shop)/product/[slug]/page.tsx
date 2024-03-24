@@ -24,12 +24,12 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
   // const previousImages = (await parent).openGraph?.images || []
 
   return {
-    title: product.name ?? 'Product not found',
-    description: product.description ?? '',
+    title: product?.name ?? 'Product not found',
+    description: product?.description ?? '',
     openGraph: {
-      title: product.name ?? 'Product not found',
-      description: product.description ?? '',
-      images: [`/products/${product.images[1]}`]
+      title: product?.name ?? 'Product not found',
+      description: product?.description ?? '',
+      images: [`/products/${product?.images[1]}`]
     }
   }
 }
@@ -50,14 +50,7 @@ export default async function ProductDetailPage({ params }: Props) {
         <ProductSlideShow images={product.images} title={product.name} className='hidden md:block' />
       </div>
       {/* Product details */}
-      <div className='col-span-1 px-5'>
-        <StockLabel slug={slug} />
-        <h1 className={`${titleFont.className} antialiased font-bold text-xl`}>{product.name}</h1>
-
-        <AddToCart product={product} />
-        <h3 className='font-bold text-sm'>Description</h3>
-        <p className='font-light'>{product.description}</p>
-      </div>
+      <AddToCart product={{ ...product, title: product.name }} />
     </div>
   )
 }

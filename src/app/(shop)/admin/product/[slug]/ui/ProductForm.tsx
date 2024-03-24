@@ -15,6 +15,7 @@ interface Props {
 const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL']
 
 interface FormInputs {
+  id?: string
   name: string
   slug: string
   description: string
@@ -192,7 +193,7 @@ export const ProductForm = ({ product, categories }: Props) => {
               <div key={image.id}>
                 <ProductImage
                   src={image.url}
-                  alt={product.title}
+                  alt={product.title ?? ''}
                   width={300}
                   height={300}
                   className='rounded-t shadow-md '
