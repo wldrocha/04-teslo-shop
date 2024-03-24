@@ -7,7 +7,7 @@ export const getPaginatedUsers = async () => {
   const session = await auth()
   console.log(`🚀 ~ getPaginatedUsers ~ session:`, session)
 
-  if (session.user.role !== 'admin') {
+  if (session?.user.role !== 'admin') {
     return {
       ok: false,
       message: 'you should be an admin to access this page'
